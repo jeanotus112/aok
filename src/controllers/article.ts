@@ -1,10 +1,10 @@
 import { RouterContext } from "@koa/router";
 import { getManager } from "typeorm";
-import { User } from "../entity/user";
+import { Article } from "../entity/article";
 
-export default class UserController {
-  public static async listUsers(ctx: RouterContext) {
-    const userRepository = getManager().getRepository(User);
+export default class ArticleController {
+  public static async getAllArts(ctx: RouterContext) {
+    const userRepository = getManager().getRepository(Article);
     const users = await userRepository.find();
 
     ctx.status = 200;
@@ -20,7 +20,7 @@ export default class UserController {
   }
 
   public static async deleteUser(ctx: RouterContext) {
-    const userRepository = getManager().getRepository(User);
+    const userRepository = getManager().getRepository(Article);
     await userRepository.delete(+ctx.params.id);
 
     ctx.status = 204;
