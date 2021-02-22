@@ -1,0 +1,11 @@
+.topics {
+  list-style: none;
+  font-size: 12px;
+  .title {
+    color: #ccc;
+  }
+  li {
+    border-bottom: 1px dotted #999;
+    padding: 2px;
+  }
+}

@@ -9,7 +9,7 @@ const unprotectedRouter = new Router();
 // auth 相关的路由
 unprotectedRouter.post("/auth/login", AuthController.login);
 unprotectedRouter.post("/auth/register", AuthController.register);
-unprotectedRouter.get("/all-articles", ArticleController.getAllArts);
+unprotectedRouter.get("/posts", ArticleController.getArticles);
 
 const protectedRouter = new Router();
 

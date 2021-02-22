@@ -1,14 +1,22 @@
 import { RouterContext } from "@koa/router";
-import { getManager } from "typeorm";
+import { getRepository } from "typeorm";
 import { Article } from "../entity/article";
+import { getConnection } from "typeorm";
 
 export default class ArticleController {
-  public static async getAllArts(ctx: RouterContext) {
-    const userRepository = getManager().getRepository(Article);
-    const users = await userRepository.find();
+  public static async getArticles(ctx: RouterContext) {
+    const { topic = "科幻", page, pageSize, tag } = ctx.request.query;
 
+    const limit = pageSize ? Number(pageSize) : 10;
+    console.log(topic, limit);
+
+    const articles = await getRepository(Article)
+      .createQueryBuilder("article")
+      .where("article.topic=:topic", { topic })
+      .take(limit)
+      .getMany();
     ctx.status = 200;
-    ctx.body = users;
+    ctx.body = articles;
   }
 
   public static async showUserDetail(ctx: RouterContext) {
@@ -19,10 +27,13 @@ export default class ArticleController {
     ctx.body = `UpdateUser controller with ID = ${ctx.params.id}`;
   }
 
-  public static async deleteUser(ctx: RouterContext) {
-    const userRepository = getManager().getRepository(Article);
-    await userRepository.delete(+ctx.params.id);
-
+  public static async deleteArticle(ctx: RouterContext) {
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(Article)
+      .where("id=:id", { id: ctx.params.id })
+      .execute();
     ctx.status = 204;
   }
 }
