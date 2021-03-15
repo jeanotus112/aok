@@ -10,6 +10,8 @@ const unprotectedRouter = new Router();
 unprotectedRouter.post("/auth/login", AuthController.login);
 unprotectedRouter.post("/auth/register", AuthController.register);
 unprotectedRouter.get("/posts", ArticleController.getArticles);
+unprotectedRouter.post("/article/publish", ArticleController.publish);
+unprotectedRouter.post("/article/delete", ArticleController.deleteArticle);
 
 const protectedRouter = new Router();
 

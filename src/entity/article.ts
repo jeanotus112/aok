@@ -6,6 +6,9 @@ export class Article {
   id: number;
 
   @Column()
+  title: string;
+
+  @Column()
   author: string;
 
   @Column()
