@@ -5,13 +5,15 @@ import { getConnection } from "typeorm";
 
 export default class ArticleController {
   public static async getArticles(ctx: RouterContext) {
-    const { topic, page, pageSize, tag } = ctx.request.query;
+    const { topic, page, pageSize, tag, userId } = ctx.request.query;
 
     const limit = pageSize ? Number(pageSize) : 10;
     console.log(topic, limit);
 
     const articles = await getRepository(Article)
       .createQueryBuilder("article")
+      .leftJoinAndSelect("article.author", "user")
+      .where("article.author = :id", { id: userId })
       // .where("article.topic=:topic", { topic })
       .take(limit)
       .getMany();
